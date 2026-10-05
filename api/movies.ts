@@ -1,12 +1,13 @@
+import { useMutation } from "@tanstack/react-query";
+
 const headers = {
   accept: "application/json",
   Authorization:
     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ODRjYmI2OTJmY2M3MmIxMDIwZmU5OGM5ODc2OGE5MyIsIm5iZiI6MTc5MDk0ODM5NC42MDYwMDAyLCJzdWIiOiI2YWJmYjQyYWZiZjAwYjdiYTYxN2U5MTciLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.CQrhEotN5l9lo1c7NEEkKxdYxSPLtlvjXBEVmr59m2E",
 };
 
-export const fetchTopRatedMovies = async () => {
-  const url =
-    "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
+export const fetchTopRatedMovies = async ({ pageParam }) => {
+  const url = `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${pageParam}`;
   const options = {
     method: "GET",
     headers: headers,

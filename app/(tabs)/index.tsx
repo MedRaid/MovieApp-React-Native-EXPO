@@ -7,17 +7,22 @@ import {
 } from "react-native";
 
 import { fetchTopRatedMovies } from "@/api/movies";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { MovieListItem } from "@/components/MovieListItem";
 
 export default function TabOneScreen() {
   const {
-    data: movies,
+    data,
     isLoading,
     error,
-  } = useQuery({
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
     queryKey: ["movies"],
     queryFn: fetchTopRatedMovies,
+    initialPageParam: 1,
+    getNextPageParam: (_lastPage, pages) => pages.length + 1,
   });
 
   if (isLoading) {
@@ -28,6 +33,8 @@ export default function TabOneScreen() {
     return <Text>{error.message}</Text>;
   }
 
+  const movies = data?.pages?.flat();
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -36,6 +43,11 @@ export default function TabOneScreen() {
         contentContainerStyle={{ gap: 5, padding: 5 }}
         columnWrapperStyle={{ gap: 5 }}
         renderItem={({ item }) => <MovieListItem movie={item} />}
+        onEndReached={() => {
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+          }
+        }}
       />
     </View>
   );

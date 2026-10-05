@@ -3,7 +3,10 @@ import { View, Text, Image, Pressable } from "react-native";
 
 export const MovieListItem = ({ movie }) => {
   return (
-    <Link href={`/${movie.id}`} asChild>
+    <Link
+      href={{ pathname: "/MovieDetails", params: { id: String(movie.id) } }}
+      asChild
+    >
       <Pressable style={{ flex: 1 }}>
         <Image
           source={{

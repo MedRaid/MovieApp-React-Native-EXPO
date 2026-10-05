@@ -2,17 +2,17 @@ import { getMovieDetailsById } from "@/api/movies";
 import { useQuery } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { View, Text, ActivityIndicator, Image } from "react-native";
-import imageSet from "../node_modules/inline-style-prefixer/es/plugins/imageSet";
 
 const MovieDetails = () => {
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const movieId = Number(id);
   const {
     data: movie,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["movies", id],
-    queryFn: () => getMovieDetailsById(id),
+    queryKey: ["movies", movieId],
+    queryFn: () => getMovieDetailsById(movieId),
   });
 
   if (isLoading) {
