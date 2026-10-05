@@ -20,7 +20,7 @@ export default function TabOneScreen() {
     hasNextPage,
   } = useInfiniteQuery({
     queryKey: ["movies"],
-    queryFn: fetchTopRatedMovies,
+    queryFn: (pageParam) => fetchTopRatedMovies(pageParam),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, pages) => pages.length + 1,
   });
